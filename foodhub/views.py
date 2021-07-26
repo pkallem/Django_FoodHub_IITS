@@ -7,26 +7,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
-from .decorators import allowed_users, unauthenticated_user
+from .decorators import admin_only, allowed_users, unauthenticated_user
+from django.contrib.auth.models import Group
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@admin_only
+# @allowed_users(allowed_roles=['customer'])
 def homePage(request):
     return render(request,'index.html')
 
-def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        form = CreateUserForm()
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def restaurantPage(request):
+    return render(request, 'restaurant.html')
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account has been successfully created for ' + str(user))
-                return redirect('login')
+@unauthenticated_user
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
+
+            messages.success(request, 'Account has been successfully created for ' + str(username))
+            return redirect('login')
 
     context = {'form':form}
     return render(request, 'register.html', context)
