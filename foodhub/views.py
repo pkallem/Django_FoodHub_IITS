@@ -3,23 +3,34 @@ from django import forms
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 from .decorators import admin_only, allowed_users, unauthenticated_user
 from django.contrib.auth.models import Group
+from .models import *
 
 @login_required(login_url='login')
 @admin_only
 # @allowed_users(allowed_roles=['customer'])
 def homePage(request):
-    return render(request,'index.html')
+    Oser = get_user_model()
+    restaurants = Oser.objects.filter(is_staff=True)
+    products = Product.objects.all()
+    context = {'products':products, 'restaurants':restaurants}
+    return render(request,'index.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+# @allowed_users(allowed_roles=['admin'])
+@admin_only
 def restaurantPage(request):
-    return render(request, 'restaurant.html')
+    context = {}
+    system = request.POST.get('system', None)
+    products = Product.objects.all()
+    context['system'] = system
+    context['products'] = products
+    return render(request, 'restaurant.html', context)
 
 @unauthenticated_user
 def registerPage(request):
@@ -29,7 +40,6 @@ def registerPage(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
             group = Group.objects.get(name='customer')
             user.groups.add(group)
 

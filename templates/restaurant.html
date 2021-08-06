@@ -1,1 +1,19 @@
-<h1>Manage your restaurant here</h1>
+<!-- <html>
+    <head>
+        <script>
+            alert({})
+        </script>
+    </head>
+</html> -->
+
+<h1>Event for {{ system }}</h1>
+
+{% for product in products %}
+{% if product.detail == system %}
+<a href="#0">
+    <h3>{{product.name}}</h3>
+    <p>{{product.price|floatformat:2}}</p>
+</a>
+{% endif %}
+{% endfor %}
+<!-- <h1>Products {{products}} </h1> -->
