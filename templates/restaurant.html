@@ -1,19 +1,204 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{% static 'css/main2.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="{% static 'js/store.js' %}" async></script>
+  <title>{{ system }}</title>
+</head>
+
+
+<body>
+  <button onclick="window.location.href='home'"class="btn"  style="width:300px;height:100px;"><i class="fa fa-home"></i> Home</button>
+
+  <main>
+    <section class="container content-section">
+      <h2 class="section-header">{{ system }}</h2>
+      <div class="basket">
+        
+        {% for product in products %}
+        {% if product.restaurant_name == system %}
+        
+        <div class="basket-product">
+          <div class="item">
+            <div class="product-details">
+              <span class="shop-item-title"><h1><strong>{{product.name}}</strong></h1></span>
+            </div>
+            <img class="shop-item-image" src="http://placehold.it/120x166" alt="Placholder Image 2" height="166" >
+            <div class="shop-item-details">
+                <span class="shop-item-price">${{product.price|floatformat:2}}</span>
+                <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+            </div>
+          </div>
+        </div>
+
+        
+        
+        {% endif %}
+        {% endfor %}
+
+      </div>
+  </section>
+  <section class="container content-section">
+      <h2 class="section-header">CART</h2>
+      <div class="cart-row">
+          <span class="cart-item cart-header cart-column">ITEM</span>
+          <span class="cart-price cart-header cart-column">PRICE</span>
+          <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+      </div>
+      <div class="cart-items">
+      </div>
+      <div class="cart-total">
+          <strong class="cart-total-title">Total</strong>
+          <span class="cart-total-price">$0</span>
+      </div>
+      <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+  </section>
+    <div class="basket">
+      <!-- <div class="basket-module">
+        <label for="promo-code">Enter a promotional code</label>
+        <input id="promo-code" type="text" name="promo-code" maxlength="5" class="promo-code-field">
+        <button class="promo-code-cta">Apply</button>
+      </div> -->
+      <div class="basket-labels">
+        <ul>
+          <li class="item item-heading">Item</li>
+          <li class="price">Price</li>
+          <li class="quantity">Quantity</li>
+          <li class="subtotal">Subtotal</li>
+        </ul>
+      </div>
+      {% for product in products %}
+
+    <!-- <h1>{{system}}</h1> -->
+    <!-- <h2>{{ product.detail }}</h2> -->
+      
+
+      {% if product.restaurant_name == system %}
+      <div class="basket-product">
+        <div class="item">
+          <div class="product-image">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="Placholder Image 2" class="product-frame">
+            {% else %}
+              <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">            
+            {% endif %}
+            </div>
+          <div class="product-details">
+            <h1><strong>{{product.name}}</strong></h1>
+            <p>{{product.description}}</p>
+            <!-- <p>Product Code - 232321939</p> -->
+          </div>
+        </div>
+        <div class="price">{{product.price|floatformat:2}}</div>
+        <div class="quantity">
+          <input type="number" value="0" min="0" class="quantity-field" onchange="myfunction()">
+        </div>
+        <h1 id="do"></h1>
+        <div id="dogg" class="subtotal"></div>
+      </div>
+
+      <!-- <a href="#0">
+          <h3>{{product.name}}</h3>
+          <h3>{{product.digital}}</h3>
+          <p>{{product.price|floatformat:2}}</p>
+      </a> -->
+
+      {% endif %}
+      {% endfor %}
+
+    </div>
+    <aside>
+      <div class="summary">
+        <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
+        <div class="summary-subtotal">
+          <div class="subtotal-title">Subtotal</div>
+          <div class="subtotal-value final-value" id="basket-subtotal">130.00</div>
+          <div class="summary-promo hide">
+            <div class="promo-title">Promotion</div>
+            <div class="promo-value final-value" id="basket-promo"></div>
+          </div>
+        </div>
+        <!-- <div class="summary-delivery">
+          <select name="delivery-collection" class="summary-delivery-selection">
+              <option value="0" selected="selected">Select Collection or Delivery</option>
+             <option value="collection">Collection</option>
+             <option value="first-class">Royal Mail 1st Class</option>
+             <option value="second-class">Royal Mail 2nd Class</option>
+             <option value="signed-for">Royal Mail Special Delivery</option>
+          </select>
+
+        </div> -->
+        <div class="summary-total">
+          <div class="tax-title">Tax</div>
+          <div class="tax-value final-value" id="basket-tax">130.00</div>
+        </div>
+        <div class="summary-total">
+          <div class="total-title">Total</div>
+          <div class="total-value final-value" id="basket-total">130.00</div>
+        </div>
+        <div class="summary-checkout">
+          <button class="checkout-cta">Go to Secure Checkout</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+</body>
+
+</html>
+
+
+
 <!-- <html>
     <head>
-        <script>
-            alert({})
+        <script type="text/javascript">
+
+        // function alertion() {
+            
+        //     // return restaurantname
+        // }
+
+        // var restaurantname = '{{ system }}';
+        // var productsarr = ['{{ products|safe }}'];
+        
+        // productsarr.forEach(element => {
+
+        //     print(element)
+        // });
+        // alert(productsarr)
+        
+            // alert('{{ system }}')
         </script>
     </head>
 </html> -->
 
-<h1>Event for {{ system }}</h1>
+<!-- <h1>Event for {{ system }}</h1> -->
 
-{% for product in products %}
-{% if product.detail == system %}
+<!-- {% for product in products %} -->
+
+<!-- <h1>{{system}}</h1> -->
+<!-- <h2>{{ product.detail }}</h2> -->
+
+<!-- {% if product.digital == system %} -->
+<!-- 
+<a href="#0">
+    <h3>{{product.name}}</h3>
+    <h3>{{product.digital}}</h3>
+    <p>{{product.price|floatformat:2}}</p>
+</a> -->
+
+<!-- {% endif %} -->
+
+<!-- {% if product.detail == system %}
 <a href="#0">
     <h3>{{product.name}}</h3>
     <p>{{product.price|floatformat:2}}</p>
 </a>
-{% endif %}
-{% endfor %}
-<!-- <h1>Products {{products}} </h1> -->
+{% endif %} -->
+<!-- {% endfor %}
+<h1>Products {{products}} </h1> -->

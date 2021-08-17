@@ -8,21 +8,31 @@ from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 from .decorators import admin_only, allowed_users, unauthenticated_user
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from .models import *
 
 @login_required(login_url='login')
 @admin_only
-# @allowed_users(allowed_roles=['customer'])
+@allowed_users(allowed_roles=['customer'])
 def homePage(request):
-    Oser = get_user_model()
-    restaurants = Oser.objects.filter(is_staff=True)
+    group = Group.objects.get(name='admin')
+    restaurants = group.user_set.all()
     products = Product.objects.all()
     context = {'products':products, 'restaurants':restaurants}
     return render(request,'index.html', context)
 
+@login_required(login_url='loginres')
+@admin_only
+@allowed_users(allowed_roles=['admin'])
+def panelPage(request):
+    Oser = get_user_model()
+    restaurants = Oser.objects.filter(is_staff=True)
+    products = Product.objects.all()
+    context = {'products':products, 'restaurants':restaurants}
+    return render(request,'myrestaurant.html', context)
+
 @login_required(login_url='login')
-# @allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['customer'])
 @admin_only
 def restaurantPage(request):
     context = {}
@@ -66,6 +76,23 @@ def loginPage(request):
 
     context = {}
     return render(request, 'login.html', context)
+
+@unauthenticated_user
+def registerPageRes(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='admin')
+            user.groups.add(group)
+
+            messages.success(request, 'Account has been successfully created for ' + str(username))
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request, 'registerres.html', context)
 
 def logoutUser(request):
     logout(request)

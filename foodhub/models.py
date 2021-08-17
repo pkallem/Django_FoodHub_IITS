@@ -13,8 +13,9 @@ class Customer(models.Model):
 class Product(models.Model):
 	name = models.CharField(max_length=200, null=True)
 	price = models.FloatField()
-	digital = models.CharField(max_length=100, null=False)
-	# image = models.ImageField(null=True, blank=True)
+	restaurant_name = models.CharField(max_length=100, null=True)
+	image = models.ImageField(null=True, blank=True)
+	description = models.TextField(max_length=1024, null=True, blank=True)
 
 	def __str__(self):
 		return self.name

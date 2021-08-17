@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-
-
+from django.conf import settings
+from django.conf.urls.static import static
+ 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home', views.homePage, name="home"),
@@ -26,5 +27,10 @@ urlpatterns = [
     path('register', views.registerPage, name="register"),
     path('login', views.loginPage, name="login"),
     path('logout', views.logoutUser, name="logout"),
-    path('restaurant', views.restaurantPage, name="restaurant")
+    path('registerres', views.registerPageRes, name="registerres"),
+    path('restaurant', views.restaurantPage, name="restaurant"),
+    path('restaurantpanel', views.panelPage, name="restaurantpanel")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

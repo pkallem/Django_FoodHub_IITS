@@ -9,7 +9,7 @@ def unauthenticated_user(view_func):
             return view_func(request, *args, **kwargs)
 
     return wrapper_func
-
+ 
 def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
@@ -34,6 +34,7 @@ def admin_only(view_func):
             # return redirect('home')
         
         if group == 'admin':
-            return redirect('restaurant')
+            # return redirect('restaurant')
+            return render(request, 'myrestaurant.html')
 
     return wrapper_function

@@ -69,7 +69,7 @@
 
               </div>
               
-              <div class="intro--options">
+              <!-- <div class="intro--options">
                 {% for product in products %}
                 {% if product.price == 1.0 %}
                 <a href="#0">
@@ -77,7 +77,7 @@
                   <p>{{product.price|floatformat:2}}</p>
                 </a>
                 {% endif %}
-                {% endfor %}
+                {% endfor %} -->
                 <!-- <a href="#0">
                   <h3>Fantasy interactive</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
@@ -86,7 +86,7 @@
                   <h3>Paul &amp; shark</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
                 </a> -->
-              </div>
+              <!-- </div> -->
             </div>
           </li>
           <!-- <li class="l-section section">
@@ -134,16 +134,20 @@
               {% for r in restaurants %}
               <form method="POST" id="systemForm" action="restaurant">
                 {% csrf_token %}
-                <button type="submit" name="system" value="{{r}}" form="systemForm">Submarine</button>
+                <div class="about--options">
+                  <a href="javascript:{}" value="{{r}}" onclick="document.getElementById('systemForm').submit();">
+                    <h3>{{r}}</h3>
+                  </a>
+                  <h3 type="submit" name="system" value="{{r}}" form="systemForm">Name</h3>
+                  <h3>Desc</h3>
+              
+                </div>
+                <button type="submit" name="system" value="{{r}}" form="systemForm"></button>
+                <br>
+                <br>
+                <br>
               </form>
-              <div class="about--options">
-                <a>
-                  <h3>{{r}}</h3>
-                </a>
-                <h3>Name</h3>
-                <h3>Desc</h3>
-            
-              </div>
+
               {% endfor %}
             </div>
           </li>
