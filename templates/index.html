@@ -54,7 +54,7 @@
           <li class="l-section section section--is-active">
             <div class="intro">
               <div class="intro--banner">
-                <h1>Hello, <br>{{request.user}}</h1>
+                <h1>Hello, <br>{{request.user.first_name}}</h1>
                 <h1><a href="{% url 'logout' %}">Logout</a></h1>
 
                 <!-- <button class="ctas">Get Started

@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import CreateUserForm
+from .forms import CreateUserForm, ProductForm
 from django.contrib.auth.decorators import login_required
 from .decorators import admin_only, allowed_users, unauthenticated_user
 from django.contrib.auth.models import Group, User
@@ -97,3 +97,23 @@ def registerPageRes(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+def createProduct(request):
+    form = ProductForm()
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form':form}
+    return render(request, 'create_product.html', context)
+
+
+def deleteProduct(request, pk):
+    product = Product.objects.get(id=pk)
+    if (request.method == "POST"):
+        product.delete()
+        return redirect('home')
+    context = {'item':product}
+    return render(request, 'delete.html', context)

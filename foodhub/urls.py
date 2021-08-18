@@ -23,13 +23,16 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home', views.homePage, name="home"),
-    path('', views.homePage, name="home"),
+    # path('', views.homePage, name="home"),
     path('register', views.registerPage, name="register"),
     path('login', views.loginPage, name="login"),
     path('logout', views.logoutUser, name="logout"),
     path('registerres', views.registerPageRes, name="registerres"),
     path('restaurant', views.restaurantPage, name="restaurant"),
-    path('restaurantpanel', views.panelPage, name="restaurantpanel")
+    path('restaurantpanel', views.panelPage, name="restaurantpanel"),
+    path('create_product', views.createProduct, name="create_product"),
+    path('delete_product/<str:pk>/', views.deleteProduct, name="delete_product"),
+
 ]
 
 if settings.DEBUG:
