@@ -1,204 +1,189 @@
+<!DOCTYPE html>
 {% load static %}
-
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="{% static 'css/main2.css' %}" rel="stylesheet" type="text/css">
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+
+  <title>Foodhub</title>
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon"> 
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/restbootstrap.css' %}" />
+  <!-- font awesome style -->
+  <link href="{% static 'css/restfont-awesome.min.css' %}" rel="stylesheet" />
+  <!-- fonts style -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="{% static 'js/store.js' %}" async></script>
-  <title>{{ system }}</title>
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/reststyle.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/restresponsive.css' %}" rel="stylesheet" />
 </head>
 
+<body class="sub_page">
+  <div class="hero_area">
+    <div class="hero_bg_box">
+      <img src="images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="{% url 'home' %}">
+            <span>
+              FOODHUB
+            </span>
+          </a>
+          <div class="" id="">
+            <div class="container">
+              <div class=" mr-auto flex-column flex-lg-row align-items-center">
+                <ul class="navbar-nav justify-content-between ">
+                  <div class="User_option">
+                    <li class="">
+                      <a class="" href="{% url 'logout' %}">
+                        <i class="fa fa-sign-out" style="font-size:40px"></i>
+                      </a>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
 
-<body>
-  <button onclick="window.location.href='home'"class="btn"  style="width:300px;height:100px;"><i class="fa fa-home"></i> Home</button>
+            <div class="custom_menu-btn">
+              <button onclick="openNav()">
+                <span class="s-1"> </span>
+                <span class="s-2"> </span>
+                <span class="s-3"> </span>
+              </button>
+            </div>
+           
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
 
-  <main>
-    <section class="container content-section">
-      <h2 class="section-header">{{ system }}</h2>
-      <div class="basket">
+  <!-- veg section -->
+
+  <section class="veg_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+
+        <h1>{{system}}</h1>
+        <p>
+          which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't an
+        </p>
+      </div>
+      <div class="row">
+        
         
         {% for product in products %}
         {% if product.restaurant_name == system %}
-        
-        <div class="basket-product">
-          <div class="item">
-            <div class="product-details">
-              <span class="shop-item-title"><h1><strong>{{product.name}}</strong></h1></span>
-            </div>
-            <img class="shop-item-image" src="http://placehold.it/120x166" alt="Placholder Image 2" height="166" >
-            <div class="shop-item-details">
-                <span class="shop-item-price">${{product.price|floatformat:2}}</span>
-                <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
-            </div>
-          </div>
-        </div>
+        <div class="col-md-6 col-lg-4">
 
-        
-        
+
+          <div class="box">
+            <div class="basket-product">
+              <div class="item">
+                <div class="product-details">
+                  <span class="shop-item-title"><h1><strong>{{product.name}}</strong></h1></span>
+                </div>
+                <div class="img-box">
+                  {% if product.image %}
+                    <img class="shop-item-image" src="{{ product.image.url }}" alt="">
+                  {% else %}
+                    <img class="shop-item-image" src="images/p1.png" alt="">
+                  {% endif %}
+                </div>
+                <!-- <img class="shop-item-image" src="http://placehold.it/120x166" alt="Placholder Image 2" height="166" > -->
+                <p>{{product.description}}</p>
+                <div class="price_box">
+                  <h4 class="price_heading">
+
+                    <span class="shop-item-price">$5</span>
+
+                  </h4>
+                    <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="img-box">
+              {% if product.image %}
+                <img class="shop-item-image" src="{{ product.image.url }}" alt="">
+              {% else %}
+                <img class="shop-item-image" src="images/p1.png" alt="">
+              {% endif %}
+            </div>
+            
+            <div class="detail-box">
+              <a href="">
+                {{product.name}}
+              </a>
+              <span class="shop-item-title"><h1><strong>{{product.name}}</strong></h1></span>
+              <div class="price_box">
+                <h6 class="price_heading">
+                  <span class="shop-item-price">${{product.price|floatformat:2}}</span> 
+                </h6>
+              </div>
+              <div class="btn-box">
+                <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+              </div>
+            </div> -->
+          </div>
+
+
+        </div>
         {% endif %}
         {% endfor %}
-
       </div>
-  </section>
-  <section class="container content-section">
-      <h2 class="section-header">CART</h2>
-      <div class="cart-row">
-          <span class="cart-item cart-header cart-column">ITEM</span>
-          <span class="cart-price cart-header cart-column">PRICE</span>
-          <span class="cart-quantity cart-header cart-column">QUANTITY</span>
-      </div>
-      <div class="cart-items">
-      </div>
-      <div class="cart-total">
-          <strong class="cart-total-title">Total</strong>
-          <span class="cart-total-price">$0</span>
-      </div>
-      <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
-  </section>
-    <div class="basket">
-      <!-- <div class="basket-module">
-        <label for="promo-code">Enter a promotional code</label>
-        <input id="promo-code" type="text" name="promo-code" maxlength="5" class="promo-code-field">
-        <button class="promo-code-cta">Apply</button>
-      </div> -->
-      <div class="basket-labels">
-        <ul>
-          <li class="item item-heading">Item</li>
-          <li class="price">Price</li>
-          <li class="quantity">Quantity</li>
-          <li class="subtotal">Subtotal</li>
-        </ul>
-      </div>
-      {% for product in products %}
-
-    <!-- <h1>{{system}}</h1> -->
-    <!-- <h2>{{ product.detail }}</h2> -->
-      
-
-      {% if product.restaurant_name == system %}
-      <div class="basket-product">
-        <div class="item">
-          <div class="product-image">
-            {% if product.image %}
-              <img src="{{ product.image.url }}" alt="Placholder Image 2" class="product-frame">
-            {% else %}
-              <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">            
-            {% endif %}
+      <div id="myNav" class="overlay">
+        <div class="overlay-content">
+          <section class="container content-section">
+            <h2 class="section-header">CART</h2>
+            <div class="cart-row">
+                <span class="cart-item cart-header cart-column">ITEM</span>
+                <span class="cart-price cart-header cart-column">PRICE</span>
+                <span class="cart-quantity cart-header cart-column">QUANTITY</span>
             </div>
-          <div class="product-details">
-            <h1><strong>{{product.name}}</strong></h1>
-            <p>{{product.description}}</p>
-            <!-- <p>Product Code - 232321939</p> -->
-          </div>
+            <div class="cart-items">
+            </div>
+            <div class="cart-total">
+                <strong class="cart-total-title">Total</strong>
+                <span class="cart-total-price">$0</span>
+            </div>
+            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+        </section>
         </div>
-        <div class="price">{{product.price|floatformat:2}}</div>
-        <div class="quantity">
-          <input type="number" value="0" min="0" class="quantity-field" onchange="myfunction()">
-        </div>
-        <h1 id="do"></h1>
-        <div id="dogg" class="subtotal"></div>
       </div>
-
-      <!-- <a href="#0">
-          <h3>{{product.name}}</h3>
-          <h3>{{product.digital}}</h3>
-          <p>{{product.price|floatformat:2}}</p>
-      </a> -->
-
-      {% endif %}
-      {% endfor %}
 
     </div>
-    <aside>
-      <div class="summary">
-        <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
-        <div class="summary-subtotal">
-          <div class="subtotal-title">Subtotal</div>
-          <div class="subtotal-value final-value" id="basket-subtotal">130.00</div>
-          <div class="summary-promo hide">
-            <div class="promo-title">Promotion</div>
-            <div class="promo-value final-value" id="basket-promo"></div>
-          </div>
-        </div>
-        <!-- <div class="summary-delivery">
-          <select name="delivery-collection" class="summary-delivery-selection">
-              <option value="0" selected="selected">Select Collection or Delivery</option>
-             <option value="collection">Collection</option>
-             <option value="first-class">Royal Mail 1st Class</option>
-             <option value="second-class">Royal Mail 2nd Class</option>
-             <option value="signed-for">Royal Mail Special Delivery</option>
-          </select>
+  </section>
 
-        </div> -->
-        <div class="summary-total">
-          <div class="tax-title">Tax</div>
-          <div class="tax-value final-value" id="basket-tax">130.00</div>
-        </div>
-        <div class="summary-total">
-          <div class="total-title">Total</div>
-          <div class="total-value final-value" id="basket-total">130.00</div>
-        </div>
-        <div class="summary-checkout">
-          <button class="checkout-cta">Go to Secure Checkout</button>
-        </div>
-      </div>
-    </aside>
-  </main>
+  <!-- end veg section -->
+
+  <!-- footer section -->
+
+  <!-- end  footer section -->
+
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+  <script src="{% static 'js/store.js' %}" async></script>
+
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+  <!-- End Google Map -->
 </body>
 
 </html>
-
-
-
-<!-- <html>
-    <head>
-        <script type="text/javascript">
-
-        // function alertion() {
-            
-        //     // return restaurantname
-        // }
-
-        // var restaurantname = '{{ system }}';
-        // var productsarr = ['{{ products|safe }}'];
-        
-        // productsarr.forEach(element => {
-
-        //     print(element)
-        // });
-        // alert(productsarr)
-        
-            // alert('{{ system }}')
-        </script>
-    </head>
-</html> -->
-
-<!-- <h1>Event for {{ system }}</h1> -->
-
-<!-- {% for product in products %} -->
-
-<!-- <h1>{{system}}</h1> -->
-<!-- <h2>{{ product.detail }}</h2> -->
-
-<!-- {% if product.digital == system %} -->
-<!-- 
-<a href="#0">
-    <h3>{{product.name}}</h3>
-    <h3>{{product.digital}}</h3>
-    <p>{{product.price|floatformat:2}}</p>
-</a> -->
-
-<!-- {% endif %} -->
-
-<!-- {% if product.detail == system %}
-<a href="#0">
-    <h3>{{product.name}}</h3>
-    <p>{{product.price|floatformat:2}}</p>
-</a>
-{% endif %} -->
-<!-- {% endfor %}
-<h1>Products {{products}} </h1> -->

@@ -25,8 +25,8 @@ def homePage(request):
 @admin_only
 @allowed_users(allowed_roles=['admin'])
 def panelPage(request):
-    Oser = get_user_model()
-    restaurants = Oser.objects.filter(is_staff=True)
+    group = Group.objects.get(name='admin')
+    restaurants = group.user_set.all()
     products = Product.objects.all()
     context = {'products':products, 'restaurants':restaurants}
     return render(request,'myrestaurant.html', context)
@@ -38,8 +38,11 @@ def restaurantPage(request):
     context = {}
     system = request.POST.get('system', None)
     products = Product.objects.all()
+    group = Group.objects.get(name='admin')
+    restaurants = group.user_set.all()
     context['system'] = system
     context['products'] = products
+    context['restaurants'] = restaurants
     return render(request, 'restaurant.html', context)
 
 @unauthenticated_user
