@@ -132,9 +132,6 @@
             <form method="POST" id="systemForm" action="restaurant">
               {% csrf_token %}
             <div class="box">
-              <div class="img-box">
-                <img src="images/p1.png" alt="">
-              </div>
               <div class="detail-box">
                 <div class="btn-box">
                   <a><button type="submit" name="system" value="{{r}}" form="systemForm" style="background-color: transparent;background-repeat: no-repeat;border: none;cursor: pointer;overflow: hidden;outline: none;">{{r.first_name}}</button></a>
